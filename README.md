@@ -3,6 +3,8 @@
 
 https://forum.pjrc.com/threads/36869-T3-x-Flexiboard(-)?p=117415#post117415
 
+Link to board @ PCBs.io: https://pcbs.io/search?query=flexiboard
+
 ### Some Pictures
 ![](pictures/top.svg.m.png?raw=true)
 ![](pictures/bottom.svg.m.png?raw=true)
