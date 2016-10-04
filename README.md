@@ -33,6 +33,8 @@ Link to board @ PCBs.io: https://pcbs.io/search?query=flexiboard
 
 ![](extras/ESP8266/pictures/flash_step1.png?raw=true)
 
+Select the files to upload (from the zip-file):
+
 ![](extras/ESP8266/pictures/flash_step2.png?raw=true)
 
 - Load FlexiBoard_FlashESP8266.ino to the Teensy
@@ -45,7 +47,7 @@ Select the COM-Port:
 ![](extras/ESP8266/pictures/flash_step4.png?raw=true)
 
 
-After that, you can run FlexiBoard_TalkToESP8266.ino and enter the following command into the console to update the ESP8266-Firmware:
+After that, you can run FlexiBoard_TalkToESP8266.ino and enter the following commands into the console to update the ESP8266-Firmware:
 
 ## Update Firmware
 1.Make sure TE(terminal equipment) is in sta or sta+ap mode
