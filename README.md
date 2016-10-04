@@ -50,12 +50,15 @@ Select the COM-Port:
 After that, you can run FlexiBoard_TalkToESP8266.ino and enter the following commands into the console to update the ESP8266-Firmware:
 
 ## Update Firmware
-1.Make sure TE(terminal equipment) is in sta or sta+ap mode
+
+1.Start FelixBoard_TalkToESP8266.ino example and select CR+LF as lineendings in the terminal.
+
+2.Make sure the ESP is in sta or sta+ap mode
 
     AT+CWMODE=3
     OK
 
-2.Make sure TE got ip address
+3.Make sure it got the ip address
 
     AT+CWJAP="YourSSID","YourWLANPassword"
     OK
@@ -63,7 +66,7 @@ After that, you can run FlexiBoard_TalkToESP8266.ino and enter the following com
     AT+CIFSR
     192.168.1.134
 
-3.Let's update
+4.Let's update
 
     AT+CIUPDATE
     +CIPUPDATE:1    found server
