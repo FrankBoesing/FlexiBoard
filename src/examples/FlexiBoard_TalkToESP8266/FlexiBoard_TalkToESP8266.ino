@@ -1,4 +1,4 @@
-//Flexiboard ESP8266 - Flashing Tool
+//Flexiboard ESP8266 - Talk to ESP with AT-Firmware
 //(c) Frank Bösing, 2016
 
 #define WLAN_SERIAL     Serial1
@@ -27,7 +27,7 @@ void setup(void) {
     ;
   }
 
-  //Reset ESP into FLASHING-MODE:
+  //Reset ESP
   digitalWrite(WLAN_RESET, LOW);
   delay(20);
   digitalWrite(WLAN_ENABLE, HIGH);
