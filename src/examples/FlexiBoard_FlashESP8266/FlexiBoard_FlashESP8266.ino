@@ -1,0 +1,52 @@
+//Flexiboard ESP8266 - Flashing Tool
+//(c) Frank Bösing, 2016
+
+#define WLAN_SERIAL     Serial1
+#define WLAN_SERIAL_BAUD_INIT 74880
+#define WLAN_SERIAL_BAUD 115200
+#define WLAN_RESET      24
+#define WLAN_ENABLE     16  //CH_PD
+#define WLAN_CTS        20  //GPIO15
+#define WLAN_RTS        2   //GPIO13
+#define WLAN_GPIO0      5   //Shared with IR_SND !
+#define WLAN_GPIO13     WLAN_RTS
+#define WLAN_GPIO15     WLAN_CTS
+
+void setup(void) {
+  WLAN_SERIAL.begin(WLAN_SERIAL_BAUD);
+  pinMode(WLAN_RESET, OUTPUT);
+  pinMode(WLAN_ENABLE, OUTPUT);
+  pinMode(WLAN_CTS, OUTPUT);
+  pinMode(WLAN_GPIO0, OUTPUT);
+
+  //Baudrate 74880, 4MByte 40MHz QIO
+  digitalWrite(WLAN_GPIO0, LOW);
+  digitalWrite(WLAN_CTS, LOW);
+  digitalWrite(WLAN_ENABLE, LOW);
+
+  int t = millis();
+  while (!Serial || t - millis() < 1000) {
+    ;
+  }
+
+  //Reset ESP into FLASHING-MODE:
+  digitalWrite(WLAN_RESET, LOW);
+  delay(20);
+  digitalWrite(WLAN_ENABLE, HIGH);
+  digitalWrite(WLAN_RESET, HIGH);
+
+
+}
+
+
+void loop() {
+
+  if (WLAN_SERIAL.available()) {
+    Serial.write( WLAN_SERIAL.read() );
+  }
+
+  if (Serial.available()) {
+    WLAN_SERIAL.write(Serial.read());
+  }
+
+}
