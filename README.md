@@ -2,7 +2,7 @@
 
 ##Board for Teensy 3.2, 3.5, 3.6
 
-https://forum.pjrc.com/threads/36869-T3-x-Flexiboard(-)?p=117415#post117415
+https://forum.pjrc.com/threads/36869-T3-x-Flexiboard(-)
 
 Link to board @ PCBs.io: https://pcbs.io/search?query=flexiboard
 
