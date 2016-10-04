@@ -1,0 +1,91 @@
+Partlist
+
+Part        Value              Device                    Package
+
+
+Mount all:
+C1          100nF              C-EUC0603                 C0603
+C2          100nF              C-EUC0603                 C0603
+C3          100nF              C-EUC0603                 C0603
+C5          100nF              C-EUC0603                 C0603
+C6          100nF              C-EUC0603                 C0603
+C7          100nF              C-EUC0603                 C0603
+C8          100nF              C-EUC0603                 C0603
+C9          100nF              C-EUC0603                 C0603
+
+
+WLAN
+=====
+ESP8266-ESP12E
+C10         220 uf             CPOL-EUE1.8-4             E1,8-4
+R8          10K                R-EU_R0603                R0603
+
+AUDIO
+=======
+PT8211      PT8211SO8          PT8211SO8                 SO8
+AUDIO_DAC1                     PINHD-1X3/90              1X03/90
+C4          47 uf              CPOL-EUE1.8-4             E1,8-4
+R1          10 Ohm             R-EU_R0603                R0603
+
+MEMORY
+======
+For example RAM 23LC1024 or Flash W25Q128
+
+U1          JEDEC-Memory       				 SOIC-8
+U2          JEDEC-Memory
+U3          JEDEC-Memory
+U4          JEDEC-Memory
+U5          JEDEC-Memory
+R2          10k                R-EU_R0603                R0603
+R11         10k                R-EU_R0603                R0603
+R12         10k                R-EU_R0603                R0603
+R13         10k                R-EU_R0603                R0603
+R14         10k                R-EU_R0603                R0603
+
+
+IR RECEIVE
+==========
+For example TSOP1136 or many others.
+IR_RECEIVER TSOP..             PINHD-1X3                 1X03
+
+IR SEND
+==========
+D1          IR Emitting Diode  ????                      ????
+R6          100                R-EU_R0603                R0603
+
+VBAT:
+=====
+VBAT                           PINHD-1X1                 1X01
+VBAT1                          PINHD-1X1                 1X01
+BATTERY                        PINHD-1X2                 1X02
+
+LED:
+======
+
+LED0                           LEDSML1206                SML1206
+LED1                           LEDSML1206                SML1206
+LED2                           LEDSML1206                SML1206
+LED3                           LEDSML1206                SML1206
+R15         330 Ohm            R-EU_R0603                R0603
+R16         330 Ohm            R-EU_R0603                R0603
+R17         330 Ohm            R-EU_R0603                R0603
+R18         330 Ohm            R-EU_R0603                R0603
+
+
+DISPLAY
+=======
+ILI9341 with touch
+
+T1          BC850              BC850                     SOT23
+Q1          BSS138             BSS123                    SOT23
+R3          10 Ohm             R-EU_R0603                R0603
+R4          10k                R-EU_R0603                R0603
+
+R5          10k                R-EU_R0603                R0603
+
+R7          10k                R-EU_R0603                R0603
+R9          1k                 R-EU_R0603                R0603
+R10         1k                 R-EU_R0603                R0603
+DISPLAY                        PINHD-1X14                1X14
+
+JP1                            PINHD-2X24                2X24
