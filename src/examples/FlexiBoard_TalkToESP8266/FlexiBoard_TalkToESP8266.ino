@@ -34,7 +34,7 @@ void setup(void) {
     ;
   }
 
-  //Reset ESP into FLASHING-MODE:
+  //Reset ESP
   digitalWrite(WLAN_RESET, LOW);
   delay(20);
   digitalWrite(WLAN_ENABLE, HIGH);
