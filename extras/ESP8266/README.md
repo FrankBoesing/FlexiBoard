@@ -9,6 +9,6 @@
 
 - Select the following options from the Arduino-Menu:
 
-![](pictures/flash_sketch?raw=true)
+![](pictures/flash_sketch.png?raw=true)
 
 - Try the BLINK-Example from the Examples / ESP8266 Menu
