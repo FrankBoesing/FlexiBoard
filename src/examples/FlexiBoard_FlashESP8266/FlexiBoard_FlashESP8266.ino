@@ -4,6 +4,11 @@
 #include <FlexiBoard.h>
 
 void setup(void) {
+
+  //Switch off TFT-Backlight:
+  pinMode(TFT_BACKLIGHT, OUTPUT);
+  digitalWriteFast(TFT_BACKLIGHT, HIGH);
+  
   pinMode(LEDT, OUTPUT);
   pinMode(LED0, OUTPUT);
   pinMode(LED2, OUTPUT);
