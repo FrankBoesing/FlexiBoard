@@ -23,7 +23,13 @@ void setup(void) {
 
   digitalWriteFast(WLAN_GPIO15, LOW);
   digitalWriteFast(WLAN_ENABLE, HIGH);
-
+  digitalWriteFast(WLAN_GPIO0, HIGH);
+  
+  //Start in Run Mode
+  digitalWriteFast(WLAN_RESET,  LOW);
+  delay(1);
+  digitalWriteFast(WLAN_RESET, HIGH);
+    
   while (!Serial) {
     ;
   }
@@ -47,11 +53,11 @@ void loop() {
       digitalWriteFast(WLAN_GPIO0, HIGH);
       digitalWriteFast(WLAN_RESET, HIGH);
     }
-    else if (!dtr) {
-      digitalWriteFast(WLAN_GPIO0, HIGH);
+    else if (rts) {
+      digitalWriteFast(WLAN_GPIO0,HIGH);
       digitalWriteFast(WLAN_RESET, LOW);
     } else {
-      digitalWriteFast(WLAN_GPIO0, LOW);
+      digitalWriteFast(WLAN_GPIO0,LOW);
       digitalWriteFast(WLAN_RESET, HIGH);
     }
   }
@@ -72,12 +78,10 @@ void loop() {
 #endif
 
   //Data Transfer
-
-  if (WLAN_SERIAL.available())
-    Serial.write( WLAN_SERIAL.read() );
-
-  if (Serial.available())
+  while (Serial.available())
     WLAN_SERIAL.write(Serial.read());
-
-
+  
+  while (WLAN_SERIAL.available())
+    Serial.write( WLAN_SERIAL.read() );
+  
 }
