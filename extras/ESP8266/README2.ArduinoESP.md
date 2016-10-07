@@ -18,7 +18,7 @@ By default OTA is OFF! - it won't show this used "ArduinoOTA"
 Find this code on your machine where you put it in libraries and uncomment this line >> //#define ALLOW_IDEOTA
 https://github.com/nailbuster/myWebServer/blob/master/myWebServer.h#L48
 - OTA is "unsafe" so it is off by default :: - [there is a new scheme to password protect OTA updates - otherwise anyone who can see the WiFi name can program it.] :: https://github.com/esp8266/Arduino/blob/master/doc/ota_updates/readme.md#password-protection
--OTA requires PYTHON_2.7 to be installed ON THE PATH :: https://github.com/esp8266/Arduino/blob/master/doc/ota_updates/readme.md#application-example
+- OTA requires PYTHON_2.7 to be installed ON THE PATH :: https://github.com/esp8266/Arduino/blob/master/doc/ota_updates/readme.md#application-example
 
 
 If you do that and compile "sketchbook...\libraries\myWebServer\examples\myWe bServerSample" it should show those libraries like this::
