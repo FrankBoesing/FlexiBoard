@@ -1,9 +1,8 @@
+
 Posted details here from :: https://forum.pjrc.com/threads/36869-T3-x-Flexiboard(-)?p=117701&viewfull=1#post117701
 
 HOW TO GET ESP PROGRAMMED OTA WITH A very functional WEBSERVER THROUGH ARDUINO::
 I'd say start with IDE 1.6.12 it works for me.
-
-At some point some part of this requires PYTHON_2.7 to be installed ON THE PATH - look for that
 
 Get Server code from here: https://github.com/nailbuster/myWebServer
 It says to get these two things to your sketchbook/libraries folder:
@@ -18,7 +17,8 @@ Boards manager link: http://arduino.esp8266.com/stable/pa...com_index.json
 By default OTA is OFF! - it won't show this used "ArduinoOTA"
 Find this code on your machine where you put it in libraries and uncomment this line >> //#define ALLOW_IDEOTA
 https://github.com/nailbuster/myWebServer/blob/master/myWebServer.h#L48
-- OTA is "unsafe" so it is off by default :: - [there is a new scheme to password protect OTA updates - otherwise anyone who can see the WiFi name can program it.]
+- OTA is "unsafe" so it is off by default :: - [there is a new scheme to password protect OTA updates - otherwise anyone who can see the WiFi name can program it.] :: https://github.com/esp8266/Arduino/blob/master/doc/ota_updates/readme.md#password-protection
+-OTA requires PYTHON_2.7 to be installed ON THE PATH :: https://github.com/esp8266/Arduino/blob/master/doc/ota_updates/readme.md#application-example
 
 
 If you do that and compile "sketchbook...\libraries\myWebServer\examples\myWe bServerSample" it should show those libraries like this::
