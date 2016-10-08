@@ -6,30 +6,17 @@
 void setup(void) {
 
   //Switch off TFT-Backlight:
-  pinMode(TFT_BACKLIGHT, OUTPUT);
-  digitalWriteFast(TFT_BACKLIGHT, HIGH);
-  
-  pinMode(LEDT, OUTPUT);
-  pinMode(LED0, OUTPUT);
-  pinMode(LED2, OUTPUT);
-  pinMode(LED3, OUTPUT);
-  digitalWriteFast(LED2, HIGH);
+  setBacklight(0);
 
-  WLAN_SERIAL.begin(115200 * 8);
-  pinMode(WLAN_RESET, OUTPUT);
-  pinMode(WLAN_ENABLE, OUTPUT);
-  pinMode(WLAN_GPIO0, OUTPUT);
-  pinMode(WLAN_GPIO15, OUTPUT);
+  pinMode(LED_BUILTIN, OUTPUT);
+  initLEDs();
+  SETLED(2, HIGH);
 
-  digitalWriteFast(WLAN_GPIO15, LOW);
-  digitalWriteFast(WLAN_ENABLE, HIGH);
-  digitalWriteFast(WLAN_GPIO0, HIGH);
-  
-  //Start in Run Mode
-  digitalWriteFast(WLAN_RESET,  LOW);
-  delay(1);
-  digitalWriteFast(WLAN_RESET, HIGH);
-    
+  if ( !resetWLAN() ) {
+    Serial.println("ESP-12e not found!!!!");
+    while (1);
+  }
+
   while (!Serial) {
     ;
   }
@@ -40,36 +27,30 @@ void setup(void) {
 
 void loop() {
 
+  int dtr = Serial.dtr();
+  int rts = Serial.rts();
+
+  SETLED(3, dtr);
+  SETLED(0, rts);
+
 #if 1
   //Implementation of "nodemcu" reset method:
   {
-    int dtr = Serial.dtr();
-    int rts = Serial.rts();
-
-    digitalWriteFast(LED3, dtr);
-    digitalWriteFast(LED0, rts);
-
     if (dtr == rts) {
       digitalWriteFast(WLAN_GPIO0, HIGH);
       digitalWriteFast(WLAN_RESET, HIGH);
     }
     else if (rts) {
-      digitalWriteFast(WLAN_GPIO0,HIGH);
+      digitalWriteFast(WLAN_GPIO0, HIGH);
       digitalWriteFast(WLAN_RESET, LOW);
     } else {
-      digitalWriteFast(WLAN_GPIO0,LOW);
+      digitalWriteFast(WLAN_GPIO0, LOW);
       digitalWriteFast(WLAN_RESET, HIGH);
     }
   }
 #else
   //Implementation of "ck" reset method:
   {
-    int dtr = Serial.dtr();
-    int rts = Serial.rts();
-
-    digitalWriteFast(LED3, dtr);
-    digitalWriteFast(LED0, rts);
-
     //Connect DTR to GPIO0
     digitalWriteFast(WLAN_GPIO0, dtr);
     //Connect RTS to RESET:
@@ -80,8 +61,8 @@ void loop() {
   //Data Transfer
   while (Serial.available())
     WLAN_SERIAL.write(Serial.read());
-  
+
   while (WLAN_SERIAL.available())
     Serial.write( WLAN_SERIAL.read() );
-  
+
 }

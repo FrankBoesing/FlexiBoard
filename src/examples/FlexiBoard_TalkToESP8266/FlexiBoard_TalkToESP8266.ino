@@ -1,13 +1,14 @@
 //Flexiboard ESP8266 - Talk To ESP8266 (AT Firmware)
 //(c) Frank Bösing, 2016
 
-#include <SPI.h>
-#include <ILI9341_t3.h>
-#include <XPT2046_Touchscreen.h>
 #include <FlexiBoard.h>
 
-
 void proxy() {
+  int dtr = Serial.dtr();
+  int rts = Serial.rts();
+
+  SETLED(3, dtr);
+  SETLED(0, rts);
   
   while (WLAN_SERIAL.available()) {
     Serial.write( WLAN_SERIAL.read() );
@@ -16,50 +17,36 @@ void proxy() {
   while (Serial.available()) {
     WLAN_SERIAL.write(Serial.read());
   }
-  
+
 }
 
 void setup(void) {
-  WLAN_SERIAL.begin(WLAN_SERIAL_BAUD);
-  pinMode(WLAN_RESET, OUTPUT);
-  pinMode(WLAN_ENABLE, OUTPUT);
-  pinMode(WLAN_CTS, OUTPUT);
-  pinMode(WLAN_GPIO0, OUTPUT);
+  
+  setBacklight(0);//Switch off TFT-Backlight
+  pinMode(LED_BUILTIN, OUTPUT);    
+  initLEDs();
 
-  digitalWrite(WLAN_CTS, LOW);
-  digitalWrite(WLAN_ENABLE, LOW);
+  //Enable green LED as "PowerOn signal"
+  SETLED(2, HIGH);
 
+  //Wait for serial console
   int t = millis();
-  while (!Serial || t - millis() < 1000) {
+  while (!Serial && (millis() - t < 3000) ) {
     ;
   }
-
-  //Reset ESP
-  digitalWrite(WLAN_RESET, LOW);
-  delay(20);
-  digitalWrite(WLAN_ENABLE, HIGH);
-  digitalWrite(WLAN_RESET, HIGH);
-
-  //The ESP - Bootloader waits for  HIGH on WLAN_GPIO0
-  digitalWrite(WLAN_GPIO0, HIGH);
-  delay(200);
-  //After that, we don't need it anymore:
-  pinMode(WLAN_GPIO0, INPUT);
-
-
-  delay(250);
-  WLAN_SERIAL.printf("ATE1\r\n");
-  delay(300);
-  WLAN_SERIAL.printf("AT+GMR\r\n");
-
-  t=millis();
-  while (t - millis() < 1500) {
-    proxy();
+  //Enable LED on Teensy
+  digitalWrite(LEDT, HIGH);
+  
+  if ( !resetWLAN() ) {
+    Serial.println("ESP-12e not found!!!!");
+    while (1);
   }
 
+  WLAN_SERIAL.print("ATE1\r\n");
+  delay(100);
+  proxy();
   
-  WLAN_SERIAL.printf("AT+CWLAP\r\n");  
-  
+  WLAN_SERIAL.print("AT+GMR\r\n");
 }
 
 
