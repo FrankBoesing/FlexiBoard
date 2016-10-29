@@ -2,7 +2,10 @@
 #ifndef _FlexiBoard_h_
 #define _FlexiBoard_h_
 
+/* ============================================================================================================== */
+/* Edit the configuration of the FlexiBoard here:                                                                 */
 
+#define HAVE_PT8211		1 	// 0= not available / 1=available
 #define HAVE_ILI9341	1	// 0= not available / 1=available
 
 #define HAVE_ESP12E		1	// 0= not available / 1=available
@@ -11,17 +14,26 @@
 #define HAVE_IR_SND	1	// 0= not available / 1=available
 #define HAVE_IR_RCV	1	// 0= not available / 1=available
 
-#define HAVE_MEM0	1	// 0= not available / 1=available
-#define HAVE_MEM1	1	// 0= not available / 1=available
-#define HAVE_MEM2	1	// 0= not available / 1=available
-#define HAVE_MEM3	1	// 0= not available / 1=available
-#define HAVE_MEM4	1	// 0= not available / 1=available
+#define HAVE_FLASH	1	// 0= not available / 1=available	(U0 is either FLASH or RAM!)
+#define HAVE_RAM0	0	// 0= not available / 1=available	(U0 is either FLASH or RAM!)
+#define HAVE_RAM1	1	// 0= not available / 1=available
+#define HAVE_RAM2	1	// 0= not available / 1=available
+#define HAVE_RAM3	1	// 0= not available / 1=available
+#define HAVE_RAM4	1	// 0= not available / 1=available
+#define RAM_SIZE	(128 * 1024)	// 23LC1024 = 128KB
 
 #define HAVE_LED0	1	// 0= not available / 1=available
 #define HAVE_LED1	1	// 0= not available / 1=available
 #define HAVE_LED2	1	// 0= not available / 1=available
 #define HAVE_LED3	1	// 0= not available / 1=available
 
+
+/* ============================================================================================================== */
+/* DON'T Edit below this line                                                                                     */
+
+#if HAVE_FLASH && HAVE_RAM0
+#error FlexiBoard.h: Configuration error!!!
+#endif
 
 #define SCK  14
 #define MISO 12
@@ -31,7 +43,7 @@
 
 #if HAVE_LED0
 #define LED0 29   //red
-#else 
+#else
 #define LED0 255
 #endif
 
@@ -72,8 +84,34 @@ const uint8_t ledArr[] = { LED0, LED1, LED2, LED3 };
 #define MEM3_CS         27
 #define MEM4_CS         28
 
+uint8_t ramArrCS[] = {
+#if HAVE_FLASH
+#define FLASH_CS		MEM0_CS
+#elif HAVE_RAM0
+	MEM0_CS,
+#endif
+#if HAVE_RAM1
+	MEM1_CS,
+#endif
+#if HAVE_RAM2
+	MEM2_CS,
+#endif
+#if HAVE_RAM3
+	MEM3_CS,
+#endif
+#if HAVE_RAM4
+	MEM4_CS
+#endif
+	};
+
+#define HAVE_RAM 		(defined(HAVE_RAM0) || defined(HAVE_RAM1) || defined(HAVE_RAM2) ||\
+						 defined(HAVE_RAM3) || defined(HAVE_RAM4))
+#define NUM_RAMS		(sizeof(ramArrCS))
+#define RAM_SIZE_TOTAL	(NUM_RAMS * RAM_SIZE)
+
+
 #define IR_RCV          17
-#define IR_SND          5  //Shared with as WLAN_GPIO0 !
+#define IR_SND          5  //Shared with WLAN_GPIO0 !
 
 #define WLAN_SERIAL     Serial1
 #define WLAN_SERIAL_BAUD_INIT 74880
@@ -87,21 +125,21 @@ const uint8_t ledArr[] = { LED0, LED1, LED2, LED3 };
 #define WLAN_GPIO15     WLAN_CTS
 
 
-void setBacklight(float brightness) { // ( range from 0 to 1.0 ) 
+void setBacklight(float brightness) { // ( range from 0 to 1.0 )
 #if HAVE_ILI9341
   int b;
-  
+
   b = 256 - roundf(256.0f * brightness);
-  
+
   if (b < 0) b = 0;
   if (b > 256) b = 256;
   pinMode(TFT_BACKLIGHT, OUTPUT);
   analogWrite(TFT_BACKLIGHT, b); //(0=Max, 256=MIN)
-#endif  
+#endif
 }
 
 bool resetWLAN() {
-#if HAVE_ESP12E		
+#if HAVE_ESP12E
   WLAN_SERIAL.begin(WLAN_SERIAL_BAUD);
 
   pinMode(WLAN_RESET, OUTPUT);
@@ -112,7 +150,6 @@ bool resetWLAN() {
   digitalWrite(WLAN_CTS, LOW);
   digitalWrite(WLAN_ENABLE, LOW);
 
-
   //Reset ESP
   digitalWrite(WLAN_RESET, LOW);
   delay(15);
@@ -121,30 +158,40 @@ bool resetWLAN() {
 
   //The ESP - Bootloader waits for  HIGH on WLAN_GPIO0
   digitalWrite(WLAN_GPIO0, HIGH);
-  
+
   bool ret = WLAN_SERIAL.findUntil((char*)"ready",(char*)"\n\r");
-  
+
   //GPIO0 ist not needed anymore:
   pinMode(WLAN_GPIO0, INPUT);
-  
+
   //Disable all used pins if no response from ESP
   if (!ret) {
     pinMode(WLAN_RESET, INPUT);
     pinMode(WLAN_ENABLE, INPUT);
     pinMode(WLAN_CTS, INPUT);
   }
-  
+
   return ret;
-#endif  
+#endif
 }
 
 
 
-void initLEDs(void) {  
+void initLEDs(void) {
   if (LED0<255) pinMode(LED0, OUTPUT);
   if (LED1<255) pinMode(LED1, OUTPUT);
   if (LED2<255) pinMode(LED2, OUTPUT);
   if (LED3<255) pinMode(LED3, OUTPUT);
+}
+
+
+void initMEM() {
+#if HAVE_FLASH
+ pinMode(MEM0_CS, OUTPUT); digitalWriteFast(MEM0_CS, HIGH);
+#endif 
+ for (unsigned i=0; i<NUM_RAMS; i++) {
+	pinMode(ramArrCS[i], OUTPUT); digitalWriteFast(ramArrCS[i], HIGH);
+ }
 }
 
 #endif
