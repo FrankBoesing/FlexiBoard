@@ -16,6 +16,11 @@ a local station for a better connection.
 
 Setup
 ===
+
+For a better experience, edit _Serial1.c_ form the Teensy-core and set 
+RX_BUFFER_SIZE     2048
+
+
 Use the Example "TalkToESP" to setup the ESP:
 
 First, restore the factory-settings:
