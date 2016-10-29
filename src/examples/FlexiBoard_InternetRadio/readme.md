@@ -17,7 +17,7 @@ a local station for a better connection.
 Setup
 ===
 
-For a better experience, edit _Serial1.c_ form the Teensy-core and set 
+For a better experience, edit _Serial1.c_ from the Teensy-core and set 
 RX_BUFFER_SIZE     2048
 
 
