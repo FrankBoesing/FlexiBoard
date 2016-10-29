@@ -1,3 +1,13 @@
+/*
+ GNU LESSER GENERAL PUBLIC LICENSE
+ See attached license.md
+ 
+ (c) Frank Bösing
+ 
+*/
+
+
+
 #include <Audio.h>
 #include <play_mp3queue.h>
 #include <Wire.h>
