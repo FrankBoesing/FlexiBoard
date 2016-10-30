@@ -37,3 +37,11 @@ void setI2SFreq(int freq) {
   }
 }
 
+void setDACFreq(int freq) {
+const unsigned config = PDB_SC_TRGSEL(15) | PDB_SC_PDBEN | PDB_SC_CONT | PDB_SC_PDBIE | PDB_SC_DMAEN;
+    PDB0_IDLY = 1;
+    PDB0_MOD = round((float)F_BUS / freq ) - 1;    
+    PDB0_SC = config | PDB_SC_LDOK;
+    PDB0_SC = config | PDB_SC_SWTRIG;
+    PDB0_CH0C1 = 0x0101;    
+}
