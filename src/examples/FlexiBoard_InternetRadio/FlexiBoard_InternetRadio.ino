@@ -260,7 +260,9 @@ void loop() {
     else if (streamData.samplerate==0 && playMP3_1.samplerate()>0) {
       streamData.samplerate = playMP3_1.samplerate();
 #if HAVE_PT8211     
-      setI2SFreq(streamData.samplerate); 
+      setI2SFreq(streamData.samplerate);
+#else
+      setDACFreq(streamData.samplerate);     
 #endif      
       Serial.printf("Samplerate:%d\r\n",streamData.samplerate);
     }
