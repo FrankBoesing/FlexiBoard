@@ -42,7 +42,7 @@ AudioConnection          patchCord2(playMP3_1, 1, output, 1);
 #define STREAM "/radioffh/hqlivestream.mp3"
 #define SERVERPORT   80
 
-#define CONNECTION_TIMEOUT 4000
+#define CONNECTION_TIMEOUT 4
 #define WLAN_BAUD (115200*20)
 #define WLAN_FLOWCONTROL 3 //0:disable, 1:enable RTS, 2:enable CTS, 3:both
 
@@ -93,7 +93,7 @@ void openStream(char* server, int port, char *stream ) {
   char request[512] = {0};
   strcat(request, "GET ");
   strcat(request, stream);
-  strcat(request, " HTTP/1.0\r\n HOST:");
+  strcat(request, " HTTP/1.0\r\nHOST:");
   strcat(request, server); 
   strcat(request, "\r\nUser-Agent:Teensyradio\r\nicy-metadata:0\r\nicy-reset:1\r\nicy-br:128\r\n\r\n");
 
