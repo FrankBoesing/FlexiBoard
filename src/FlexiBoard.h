@@ -159,7 +159,7 @@ bool resetWLAN() {
   //The ESP - Bootloader waits for  HIGH on WLAN_GPIO0
   digitalWrite(WLAN_GPIO0, HIGH);
 
-  bool ret = WLAN_SERIAL.findUntil((char*)"ready",(char*)"\n\r");
+  bool ret = WLAN_SERIAL.findUntil("ready","");
 
   //GPIO0 ist not needed anymore:
   pinMode(WLAN_GPIO0, INPUT);
